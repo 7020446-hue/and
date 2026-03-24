@@ -21,7 +21,7 @@ class VaultFileAdapter(private val onItemClick: (VaultFile) -> Unit) :
             
             Glide.with(binding.root.context)
                 .load(File(file.encryptedPath)) 
-                .placeholder(R.drawable.ic_launcher_foreground)
+                .placeholder(R.drawable.ic_vault_logo)
                 .into(binding.ivThumbnail)
 
             binding.root.setOnClickListener { clickListener(file) }

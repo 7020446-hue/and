@@ -20,7 +20,7 @@ object DecoyNotificationService {
         }
 
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.mipmap.ic_launcher) // Use a disguised icon
+            .setSmallIcon(android.R.drawable.ic_menu_info_details) // Use a disguised icon
             .setContentTitle("$appName notification")
             .setContentText(message)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)

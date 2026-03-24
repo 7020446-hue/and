@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.stealthvault.app.data.local.entities.VaultDao
 import com.stealthvault.app.data.local.entities.VaultDatabase
 import dagger.Module
+import net.sqlcipher.database.SQLiteDatabase
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext

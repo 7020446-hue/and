@@ -6,6 +6,9 @@ import androidx.fragment.app.Fragment
 import com.stealthvault.app.R
 import com.stealthvault.app.databinding.FragmentSettingsBinding
 import dagger.hilt.android.AndroidEntryPoint
+import android.widget.Toast
+import javax.inject.Inject
+import com.stealthvault.app.data.local.SecurityPreferenceManager
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment(R.layout.fragment_settings) {

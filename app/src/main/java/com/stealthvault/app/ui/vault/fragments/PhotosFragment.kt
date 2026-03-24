@@ -32,7 +32,7 @@ class PhotosFragment : Fragment(R.layout.fragment_vault_list) {
             findNavController().navigate(R.id.mediaDetailFragment, bundle)
         }
 
-        binding.rvVaultItems.apply {
+        binding.rvFiles.apply {
             layoutManager = GridLayoutManager(requireContext(), 3)
             this.adapter = adapter
         }
