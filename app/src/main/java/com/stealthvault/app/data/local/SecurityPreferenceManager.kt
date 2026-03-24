@@ -1,6 +1,8 @@
 package com.stealthvault.app.data.local
 
 import android.content.Context
+import android.content.SharedPreferences
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -13,6 +15,10 @@ class SecurityPreferenceManager @Inject constructor(
 ) {
 
     private lateinit var prefs: android.content.SharedPreferences
+
+    /** Plain (unencrypted) preferences for non-sensitive settings like theme. */
+    private val appPrefs: SharedPreferences =
+        context.getSharedPreferences("app_settings", Context.MODE_PRIVATE)
 
     init {
         try {
@@ -52,6 +58,7 @@ class SecurityPreferenceManager @Inject constructor(
         private const val KEY_PIN = "master_pin"
         private const val KEY_DECOY_PIN = "decoy_pin"
         private const val KEY_IS_SETUP_COMPLETE = "is_setup_complete"
+        private const val KEY_THEME_MODE = "theme_mode"
     }
 
     var masterPin: String?
@@ -65,4 +72,12 @@ class SecurityPreferenceManager @Inject constructor(
     var isSetupComplete: Boolean
         get() = prefs.getBoolean(KEY_IS_SETUP_COMPLETE, false)
         set(value) = prefs.edit().putBoolean(KEY_IS_SETUP_COMPLETE, value).apply()
+
+    /**
+     * Theme mode using [AppCompatDelegate] night-mode constants.
+     * Defaults to [AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM].
+     */
+    var themeMode: Int
+        get() = appPrefs.getInt(KEY_THEME_MODE, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        set(value) = appPrefs.edit().putInt(KEY_THEME_MODE, value).apply()
 }

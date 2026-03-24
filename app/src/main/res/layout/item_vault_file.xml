@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="6dp"
-    app:cardBackgroundColor="#2C2C2E"
+    app:cardBackgroundColor="@color/card_background"
     app:cardCornerRadius="16dp"
     app:cardElevation="4dp"
     app:strokeWidth="0dp">
@@ -40,7 +40,7 @@
             android:fontFamily="sans-serif-medium"
             android:ellipsize="end"
             android:singleLine="true"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/on_surface"
             android:textSize="13sp"
             app:layout_constraintTop_toBottomOf="@id/ivThumbnail"
             app:layout_constraintBottom_toBottomOf="parent" />

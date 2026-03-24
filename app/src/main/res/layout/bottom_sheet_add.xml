@@ -23,8 +23,8 @@
         app:icon="@android:drawable/ic_menu_gallery"
         app:iconTint="@color/primary"
         style="@style/Widget.Material3.Button.TonalButton"
-        app:backgroundTint="#2C2C2E"
-        android:textColor="#FFFFFF"
+        app:backgroundTint="@color/card_background"
+        android:textColor="@color/on_surface"
         android:text="Hide Photos"
         android:gravity="start|center_vertical"
         android:layout_marginBottom="12dp" />
@@ -36,8 +36,8 @@
         app:icon="@android:drawable/ic_menu_camera"
         app:iconTint="@color/primary"
         style="@style/Widget.Material3.Button.TonalButton"
-        app:backgroundTint="#2C2C2E"
-        android:textColor="#FFFFFF"
+        app:backgroundTint="@color/card_background"
+        android:textColor="@color/on_surface"
         android:text="Hide Videos"
         android:gravity="start|center_vertical"
         android:layout_marginBottom="12dp" />
@@ -49,8 +49,8 @@
         app:icon="@android:drawable/ic_menu_edit"
         app:iconTint="@color/primary"
         style="@style/Widget.Material3.Button.TonalButton"
-        app:backgroundTint="#2C2C2E"
-        android:textColor="#FFFFFF"
+        app:backgroundTint="@color/card_background"
+        android:textColor="@color/on_surface"
         android:text="Create Secure Note"
         android:gravity="start|center_vertical" />
 
