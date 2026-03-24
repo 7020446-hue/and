@@ -83,7 +83,6 @@ class CalculatorActivity : AppCompatActivity() {
     }
 
     private fun setupButtons() {
-        // ... (previous button setup logic)
         val allButtons = listOf(
             binding.btn0, binding.btn1, binding.btn2, binding.btn3, binding.btn4,
             binding.btn5, binding.btn6, binding.btn7, binding.btn8, binding.btn9,
@@ -94,6 +93,48 @@ class CalculatorActivity : AppCompatActivity() {
             button.setOnClickListener {
                 currentInput += (it as Button).text
                 binding.tvDisplay.text = currentInput
+            }
+        }
+
+        // Scientific function buttons append function notation for exp4j evaluation
+        binding.btnSin.setOnClickListener {
+            currentInput += "sin("
+            binding.tvDisplay.text = currentInput
+        }
+        binding.btnCos.setOnClickListener {
+            currentInput += "cos("
+            binding.tvDisplay.text = currentInput
+        }
+        binding.btnTan.setOnClickListener {
+            currentInput += "tan("
+            binding.tvDisplay.text = currentInput
+        }
+        binding.btnLog.setOnClickListener {
+            currentInput += "log10("
+            binding.tvDisplay.text = currentInput
+        }
+
+        binding.btnPlusMinus.setOnClickListener {
+            if (currentInput.isNotEmpty()) {
+                currentInput = if (currentInput.startsWith("-")) {
+                    currentInput.substring(1)
+                } else {
+                    "-$currentInput"
+                }
+                binding.tvDisplay.text = currentInput
+            }
+        }
+
+        binding.btnPercent.setOnClickListener {
+            if (currentInput.isNotEmpty()) {
+                try {
+                    val value = currentInput.toDouble() / 100.0
+                    currentInput = value.toString()
+                    binding.tvDisplay.text = currentInput
+                } catch (e: NumberFormatException) {
+                    currentInput += "/100"
+                    binding.tvDisplay.text = currentInput
+                }
             }
         }
 
