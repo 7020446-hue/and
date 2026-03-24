@@ -25,8 +25,11 @@ jobs:
     - name: Ensure Gradle Wrapper exists
       run: |
         if [ ! -f gradlew ]; then
-          echo "Gradle wrapper missing, generating for 8.7..."
+          echo "Gradle wrapper missing, generating in temp dir to avoid Gradle 9 project evaluation crashes..."
+          mkdir /tmp/gradle-wrap && cd /tmp/gradle-wrap
           gradle wrapper --gradle-version 8.7
+          cp -r gradlew gradlew.bat gradle/ ${{ github.workspace }}/
+          cd ${{ github.workspace }}
         fi
         chmod +x gradlew
 
