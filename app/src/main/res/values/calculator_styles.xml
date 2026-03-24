@@ -3,9 +3,8 @@
     <!-- Calculator Button Base Style -->
     <style name="CalculatorButtonStyle" parent="Widget.Material3.Button.TextButton">
         <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_columnWeight">1</item>
-        <item name="android:layout_rowWeight">1</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
         <item name="android:layout_margin">6dp</item>
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:textSize">24sp</item>

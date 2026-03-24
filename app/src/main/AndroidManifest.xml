@@ -22,9 +22,9 @@
         android:name=".StealthVaultApp"
         android:allowBackup="false"
         android:extractNativeLibs="true"
-        android:icon="@drawable/ic_launcher_calculator"
+        android:icon="@drawable/ic_launcher_calculato2r"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/ic_launcher_calculator"
+        android:roundIcon="@drawable/ic_launcher_calculato2r"
 
         android:supportsRtl="true"
         android:theme="@style/Theme.StealthVault"
@@ -43,7 +43,7 @@
             android:name=".CalculatorAlias"
             android:enabled="true"
             android:exported="true"
-            android:icon="@drawable/ic_launcher_calculator"
+            android:icon="@drawable/ic_launcher_calculato2r"
             android:label="@string/calculator_name"
             android:targetActivity=".ui.fake.CalculatorActivity">
             <intent-filter>
