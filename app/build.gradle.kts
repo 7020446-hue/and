@@ -62,7 +62,6 @@ dependencies {
     // Room
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-    implementation(libs.play.services.ads)
     kapt(libs.androidx.room.compiler)
     
     // Hilt
