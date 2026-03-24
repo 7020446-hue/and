@@ -17,17 +17,17 @@ class SecurityPreferenceManager @Inject constructor(
     init {
         try {
             initPrefs()
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
             try {
                 val keyStore = java.security.KeyStore.getInstance("AndroidKeyStore")
                 keyStore.load(null)
                 keyStore.deleteEntry("_androidx_security_master_key_")
-            } catch (ignored: Exception) {}
+            } catch (ignored: Throwable) {}
 
             context.getSharedPreferences("secure_prefs", Context.MODE_PRIVATE).edit().clear().commit()
             try {
                 initPrefs()
-            } catch (fatal: Exception) {
+            } catch (fatal: Throwable) {
                 // Graceful degradation for devices with permanently broken Keystores
                 prefs = context.getSharedPreferences("fallback_prefs", Context.MODE_PRIVATE)
             }
