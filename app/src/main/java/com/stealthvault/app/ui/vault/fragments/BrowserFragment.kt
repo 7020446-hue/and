@@ -6,6 +6,8 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.webkit.WebChromeClient
+import android.webkit.WebResourceRequest
+import android.webkit.WebResourceResponse
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -55,6 +57,20 @@ class BrowserFragment : Fragment(R.layout.fragment_browser) {
                     // Reflect the final URL in the address bar (handles redirects)
                     binding.etUrl.setText(url)
                 }
+
+                override fun shouldInterceptRequest(
+                    view: WebView,
+                    request: WebResourceRequest
+                ): WebResourceResponse? {
+                    val host = request.url.host?.lowercase()
+                        ?: return super.shouldInterceptRequest(view, request)
+                    return if (AD_HOSTS.any { adHost -> host == adHost || host.endsWith(".$adHost") }) {
+                        // Return an empty response to block the request
+                        WebResourceResponse("text/plain", "utf-8", null)
+                    } else {
+                        super.shouldInterceptRequest(view, request)
+                    }
+                }
             }
 
             webChromeClient = object : WebChromeClient() {
@@ -101,5 +117,62 @@ class BrowserFragment : Fragment(R.layout.fragment_browser) {
             clearFormData()
         }
         _binding = null
+    }
+
+    companion object {
+        /**
+         * Known ad-network and tracker hostnames.
+         * Requests whose host matches (or is a subdomain of) any entry are blocked.
+         */
+        private val AD_HOSTS = setOf(
+            // Google advertising
+            "doubleclick.net",
+            "googleadservices.com",
+            "googlesyndication.com",
+            "adservice.google.com",
+            "adservice.google.co.uk",
+            "pagead2.googlesyndication.com",
+            "ads.youtube.com",
+            // Amazon
+            "amazon-adsystem.com",
+            // Facebook / Meta
+            "connect.facebook.net",
+            "an.facebook.com",
+            // Analytics / tracking
+            "google-analytics.com",
+            "analytics.google.com",
+            "stats.g.doubleclick.net",
+            "scorecardresearch.com",
+            "quantserve.com",
+            "omtrdc.net",
+            "demdex.net",
+            // Ad networks
+            "adnxs.com",
+            "rubiconproject.com",
+            "pubmatic.com",
+            "openx.net",
+            "openx.com",
+            "criteo.com",
+            "criteo.net",
+            "casalemedia.com",
+            "mathtag.com",
+            "moatads.com",
+            "media.net",
+            "outbrain.com",
+            "taboola.com",
+            "revcontent.com",
+            "serving-sys.com",
+            "adbrite.com",
+            "smartadserver.com",
+            "advertising.com",
+            "zedo.com",
+            "contextweb.com",
+            "yieldmanager.com",
+            "adtech.de",
+            "bluekai.com",
+            "turn.com",
+            "addthis.com",
+            "sharethis.com",
+        )
     }
 }
