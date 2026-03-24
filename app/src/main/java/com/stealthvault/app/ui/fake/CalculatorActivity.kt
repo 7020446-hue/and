@@ -11,7 +11,6 @@ import com.stealthvault.app.data.local.SecurityPreferenceManager
 import com.stealthvault.app.databinding.ActivityCalculatorBinding
 import com.stealthvault.app.ui.vault.VaultActivity
 import com.stealthvault.app.utils.CameraHelper
-import com.stealthvault.app.data.repository.VaultRepository
 import dagger.hilt.android.AndroidEntryPoint
 import net.objecthunter.exp4j.ExpressionBuilder
 import java.util.concurrent.Executor
@@ -27,8 +26,6 @@ class CalculatorActivity : AppCompatActivity() {
     lateinit var securityPrefs: SecurityPreferenceManager
     @Inject
     lateinit var cameraHelper: CameraHelper
-    @Inject
-    lateinit var repository: VaultRepository
 
     private lateinit var executor: Executor
     private lateinit var biometricPrompt: BiometricPrompt
@@ -174,4 +171,3 @@ class CalculatorActivity : AppCompatActivity() {
         finish()
     }
 }
-

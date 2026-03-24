@@ -29,7 +29,7 @@ class IntruderLogsFragment : Fragment(R.layout.fragment_intruder_logs) {
             this.adapter = adapter
         }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.intruderLogs.collectLatest { logs ->
                 adapter.submitList(logs)
                 binding.tvNoLogs.visibility = if (logs.isEmpty()) View.VISIBLE else View.GONE

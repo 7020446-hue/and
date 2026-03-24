@@ -15,12 +15,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
+import javax.inject.Provider
 import javax.inject.Singleton
 
 @Singleton
 class CameraHelper @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val repository: VaultRepository
+    private val repositoryProvider: Provider<VaultRepository>
 ) {
 
     private var imageCapture: ImageCapture? = null
@@ -69,7 +70,8 @@ class CameraHelper @Inject constructor(
                     Log.d("CameraHelper", "Photo capture succeeded: ${photoFile.absolutePath}")
                     // Log to DB
                     CoroutineScope(Dispatchers.IO).launch {
-                        repository.logIntruderAttempt(photoFile.absolutePath, "Failed PIN Attempt")
+                        repositoryProvider.get()
+                            .logIntruderAttempt(photoFile.absolutePath, "Failed PIN Attempt")
                     }
                 }
             }

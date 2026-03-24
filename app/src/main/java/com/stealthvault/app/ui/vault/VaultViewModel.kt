@@ -36,7 +36,7 @@ class VaultViewModel @Inject constructor(
         .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
     val notes: StateFlow<List<VaultNote>> = repository.getAllNotes()
-        .stateIn(viewModelScope, SharingStarted.Lazily, emptyInList())
+        .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
     fun importFile(context: Context, uri: Uri) = viewModelScope.launch {
         val type = context.contentResolver.getType(uri) ?: "Document"
@@ -58,8 +58,6 @@ class VaultViewModel @Inject constructor(
             repository.hideFile(tempFile, category)
         }
     }
-
-    private fun <T> emptyInList(): List<T> = emptyList()
 
     fun hideFile(file: File, type: String) = viewModelScope.launch { repository.hideFile(file, type) }
     fun restoreFile(vaultFile: VaultFile) = viewModelScope.launch { repository.restoreFile(vaultFile) }
