@@ -35,21 +35,36 @@ class CalculatorActivity : AppCompatActivity() {
     private lateinit var promptInfo: BiometricPrompt.PromptInfo
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityCalculatorBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        try {
+            super.onCreate(savedInstanceState)
+            binding = ActivityCalculatorBinding.inflate(layoutInflater)
+            setContentView(binding.root)
 
-        setupBiometric()
-        setupButtons()
-        
-        // Secret trigger: Long press history to use Biometrics
-        binding.tvHistory.setOnLongClickListener {
-            if (securityPrefs.isSetupComplete) {
-                biometricPrompt.authenticate(promptInfo)
-            } else {
-                Toast.makeText(this, "Set Master PIN first", Toast.LENGTH_SHORT).show()
+            setupBiometric()
+            setupButtons()
+            
+            // Secret trigger: Long press history to use Biometrics
+            binding.tvHistory.setOnLongClickListener {
+                if (securityPrefs.isSetupComplete) {
+                    biometricPrompt.authenticate(promptInfo)
+                } else {
+                    Toast.makeText(this, "Set Master PIN first", Toast.LENGTH_SHORT).show()
+                }
+                true
             }
-            true
+        } catch (t: Throwable) {
+            val tv = android.widget.TextView(this).apply {
+                text = "CRASH: " + android.util.Log.getStackTraceString(t)
+                setTextColor(android.graphics.Color.RED)
+                textSize = 14f
+                setPadding(32, 32, 32, 32)
+            }
+            // Remove previous content view and show crash
+            val scrollView = android.widget.ScrollView(this).apply {
+                addView(tv)
+                setBackgroundColor(android.graphics.Color.BLACK)
+            }
+            setContentView(scrollView)
         }
     }
 
@@ -159,3 +174,4 @@ class CalculatorActivity : AppCompatActivity() {
         finish()
     }
 }
+
