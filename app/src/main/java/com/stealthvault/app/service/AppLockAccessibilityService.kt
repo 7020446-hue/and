@@ -12,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.stealthvault.app.utils.SmartLockManager
 
 @AndroidEntryPoint
 class AppLockAccessibilityService : AccessibilityService() {
