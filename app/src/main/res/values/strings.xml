@@ -33,7 +33,42 @@
     <!-- Settings -->
     <string name="settings_appearance">Appearance</string>
     <string name="settings_dark_mode">Dark Mode</string>
+    <string name="settings_security">Security Settings</string>
+    <string name="settings_intruder_selfie">Intruder Selfie</string>
+    <string name="settings_shake_to_hide">Shake to Hide</string>
+    <string name="settings_auto_lock">Auto-lock Vault</string>
+    <string name="settings_disguise">Disguise Settings</string>
     <string name="calculator_name">Calculator</string>
     <string name="accessibility_service_description">This service is required to lock apps and protect your privacy.</string>
     <string name="accessibility_service_label">Stealth Vault App Protector</string>
+
+    <!-- Auto-lock options -->
+    <string name="auto_lock_never">Never</string>
+    <string name="auto_lock_1min">After 1 minute</string>
+    <string name="auto_lock_5min">After 5 minutes</string>
+    <string name="auto_lock_10min">After 10 minutes</string>
+
+    <!-- Change PIN dialog -->
+    <string name="change_pin_title">Change Master PIN</string>
+    <string name="change_pin_current">Current PIN</string>
+    <string name="change_pin_new">New PIN</string>
+    <string name="change_pin_confirm">Confirm New PIN</string>
+    <string name="change_pin_error_wrong">Current PIN is incorrect</string>
+    <string name="change_pin_error_mismatch">New PINs do not match</string>
+    <string name="change_pin_error_same">New PIN must differ from the current PIN</string>
+    <string name="change_pin_error_empty">All fields are required</string>
+    <string name="change_pin_success">PIN changed successfully</string>
+    <string name="change_pin_save">Save</string>
+
+    <!-- Settings buttons -->
+    <string name="btn_change_pin">Change Master PIN</string>
+    <string name="btn_manage_apps">Manage Locked Apps</string>
+    <string name="btn_view_intruder_logs">View Intruder Logs</string>
+
+    <!-- Notes -->
+    <string name="search_notes">Search notes…</string>
+    <string name="delete_note_title">Delete note?</string>
+    <string name="delete_note_message">This note will be permanently deleted.</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
 </resources>

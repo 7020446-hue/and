@@ -18,7 +18,7 @@ class SecurityPreferenceManager @Inject constructor(
 
     /** Plain (unencrypted) preferences for non-sensitive settings like theme. */
     private val appPrefs: SharedPreferences =
-        context.getSharedPreferences("app_settings", Context.MODE_PRIVATE)
+        context.getSharedPreferences(APP_SETTINGS_PREFS, Context.MODE_PRIVATE)
 
     init {
         try {
@@ -59,6 +59,12 @@ class SecurityPreferenceManager @Inject constructor(
         private const val KEY_DECOY_PIN = "decoy_pin"
         private const val KEY_IS_SETUP_COMPLETE = "is_setup_complete"
         private const val KEY_THEME_MODE = "theme_mode"
+        private const val KEY_INTRUDER_SELFIE = "intruder_selfie_enabled"
+        private const val KEY_SHAKE_TO_HIDE = "shake_to_hide_enabled"
+        private const val KEY_AUTO_LOCK_MINUTES = "auto_lock_minutes"
+
+        /** Filename used for plain (non-sensitive) app settings. */
+        const val APP_SETTINGS_PREFS = "app_settings"
     }
 
     var masterPin: String?
@@ -80,4 +86,22 @@ class SecurityPreferenceManager @Inject constructor(
     var themeMode: Int
         get() = appPrefs.getInt(KEY_THEME_MODE, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         set(value) = appPrefs.edit().putInt(KEY_THEME_MODE, value).apply()
+
+    /** Whether the intruder-selfie camera capture is enabled (default on). */
+    var intruderSelfieEnabled: Boolean
+        get() = appPrefs.getBoolean(KEY_INTRUDER_SELFIE, true)
+        set(value) = appPrefs.edit().putBoolean(KEY_INTRUDER_SELFIE, value).apply()
+
+    /** Whether shaking the device closes the vault immediately (default on). */
+    var shakeToHideEnabled: Boolean
+        get() = appPrefs.getBoolean(KEY_SHAKE_TO_HIDE, true)
+        set(value) = appPrefs.edit().putBoolean(KEY_SHAKE_TO_HIDE, value).apply()
+
+    /**
+     * Minutes of inactivity after which the vault auto-locks.
+     * 0 means never. Supported values: 0, 1, 5, 10.
+     */
+    var autoLockMinutes: Int
+        get() = appPrefs.getInt(KEY_AUTO_LOCK_MINUTES, 0)
+        set(value) = appPrefs.edit().putInt(KEY_AUTO_LOCK_MINUTES, value).apply()
 }

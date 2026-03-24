@@ -159,7 +159,9 @@ class CalculatorActivity : AppCompatActivity() {
             currentInput = result.toString()
         } catch (e: Exception) {
             binding.tvDisplay.text = "Error"
-            cameraHelper.takeIntruderPhoto(this)
+            if (securityPrefs.intruderSelfieEnabled) {
+                cameraHelper.takeIntruderPhoto(this)
+            }
         }
     }
 

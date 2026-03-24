@@ -10,16 +10,22 @@ import com.stealthvault.app.data.local.entities.VaultNote
 import com.stealthvault.app.databinding.ItemVaultNoteBinding
 import java.util.Calendar
 
-class VaultNoteAdapter(private val onItemClick: (VaultNote) -> Unit) :
-    ListAdapter<VaultNote, VaultNoteAdapter.ViewHolder>(DiffCallback) {
+class VaultNoteAdapter(
+    private val onItemClick: (VaultNote) -> Unit,
+    private val onItemLongClick: (VaultNote) -> Unit = {}
+) : ListAdapter<VaultNote, VaultNoteAdapter.ViewHolder>(DiffCallback) {
 
     class ViewHolder(private val binding: ItemVaultNoteBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(note: VaultNote, clickListener: (VaultNote) -> Unit) {
+        fun bind(note: VaultNote, clickListener: (VaultNote) -> Unit, longClickListener: (VaultNote) -> Unit) {
             binding.tvNoteTitle.text = note.title
             val calendar = Calendar.getInstance().apply { timeInMillis = note.timestamp }
             binding.tvNoteDate.text = DateFormat.format("dd MMM yyyy", calendar)
             binding.root.setOnClickListener { clickListener(note) }
+            binding.root.setOnLongClickListener {
+                longClickListener(note)
+                true
+            }
         }
     }
 
@@ -31,7 +37,7 @@ class VaultNoteAdapter(private val onItemClick: (VaultNote) -> Unit) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position), onItemClick)
+        holder.bind(getItem(position), onItemClick, onItemLongClick)
     }
 
     object DiffCallback : DiffUtil.ItemCallback<VaultNote>() {

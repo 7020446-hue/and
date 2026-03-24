@@ -1,84 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- fragment_settings.xml -->
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:background="@color/background">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="16dp"
-        android:text="@string/settings_appearance"
-        android:textColor="@color/primary"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/swDarkMode"
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="@string/settings_dark_mode"
-        android:textColor="@color/on_surface" />
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="16dp"
-        android:paddingTop="16dp"
-        android:text="Security Settings"
-        android:textColor="@color/primary"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        <!-- ── Appearance ── -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="12dp"
+            android:text="@string/settings_appearance"
+            android:textColor="@color/primary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/swIntruderSelfie"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Intruder Selfie"
-        android:textColor="@color/on_surface" />
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/swDarkMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_dark_mode"
+            android:textColor="@color/on_surface" />
 
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/swShakeToHide"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Shake to Hide"
-        android:textColor="@color/on_surface" />
+        <!-- ── Security Settings ── -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="12dp"
+            android:paddingTop="24dp"
+            android:text="@string/settings_security"
+            android:textColor="@color/primary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Disguise Settings"
-        android:textColor="@color/primary"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/swIntruderSelfie"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_intruder_selfie"
+            android:textColor="@color/on_surface" />
 
-    <Button
-        android:id="@+id/btnChangePin"
-        style="@style/Widget.Material3.Button.TonalButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Change Master PIN" />
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/swShakeToHide"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/settings_shake_to_hide"
+            android:textColor="@color/on_surface" />
 
-    <Button
-        android:id="@+id/btnManageApps"
-        style="@style/Widget.Material3.Button.TonalButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Manage Locked Apps" />
+        <!-- Auto-lock dropdown -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilAutoLock"
+            style="@style/Widget.Material3.TextInputLayout.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="@string/settings_auto_lock">
 
-    <Button
-        android:id="@+id/btnViewIntruderLogs"
-        style="@style/Widget.Material3.Button.TonalButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="View Intruder Logs" />
+            <AutoCompleteTextView
+                android:id="@+id/actvAutoLock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:inputType="none"
+                android:textColor="@color/on_surface" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+        <!-- ── Disguise Settings ── -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:paddingBottom="12dp"
+            android:text="@string/settings_disguise"
+            android:textColor="@color/primary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnChangePin"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_change_pin" />
+
+        <Button
+            android:id="@+id/btnManageApps"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/btn_manage_apps" />
+
+        <Button
+            android:id="@+id/btnViewIntruderLogs"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/btn_view_intruder_logs" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</ScrollView>
