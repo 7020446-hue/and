@@ -24,16 +24,22 @@ class EncryptionManager @Inject constructor() {
     private val ANDROID_KEY_STORE = "AndroidKeyStore"
     private val TRANSFORMATION = "AES/GCM/NoPadding"
 
-    init {
+    private val secretKey: SecretKey by lazy {
         getOrCreateSecretKey()
     }
 
     private fun getOrCreateSecretKey(): SecretKey {
         val keyStore = KeyStore.getInstance(ANDROID_KEY_STORE).apply { load(null) }
         
-        if (keyStore.containsAlias(KEY_ALIAS)) {
-            val entry = keyStore.getEntry(KEY_ALIAS, null) as KeyStore.SecretKeyEntry
-            return entry.secretKey
+        try {
+            if (keyStore.containsAlias(KEY_ALIAS)) {
+                val entry = keyStore.getEntry(KEY_ALIAS, null) as KeyStore.SecretKeyEntry
+                return entry.secretKey
+            }
+        } catch (e: Exception) {
+            try {
+                keyStore.deleteEntry(KEY_ALIAS)
+            } catch (ignored: Exception) {}
         }
 
         val keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, ANDROID_KEY_STORE)
@@ -54,7 +60,7 @@ class EncryptionManager @Inject constructor() {
      */
     fun encryptFile(inputFile: File, outputFile: File) {
         val cipher = Cipher.getInstance(TRANSFORMATION)
-        cipher.init(Cipher.ENCRYPT_MODE, getOrCreateSecretKey())
+        cipher.init(Cipher.ENCRYPT_MODE, secretKey)
         
         val iv = cipher.iv
         outputFile.outputStream().use { fos ->
@@ -81,7 +87,7 @@ class EncryptionManager @Inject constructor() {
         
         val cipher = Cipher.getInstance(TRANSFORMATION)
         val spec = GCMParameterSpec(128, iv)
-        cipher.init(Cipher.DECRYPT_MODE, getOrCreateSecretKey(), spec)
+        cipher.init(Cipher.DECRYPT_MODE, secretKey, spec)
         
         CipherInputStream(fis, cipher).use { cis ->
             FileOutputStream(outputFile).use { fos ->
@@ -101,7 +107,7 @@ class EncryptionManager @Inject constructor() {
 
         val cipher = Cipher.getInstance(TRANSFORMATION)
         val spec = GCMParameterSpec(128, iv)
-        cipher.init(Cipher.DECRYPT_MODE, getOrCreateSecretKey(), spec)
+        cipher.init(Cipher.DECRYPT_MODE, secretKey, spec)
         
         return CipherInputStream(fis, cipher)
     }

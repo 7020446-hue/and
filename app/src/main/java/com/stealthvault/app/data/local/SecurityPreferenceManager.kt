@@ -18,7 +18,6 @@ class SecurityPreferenceManager @Inject constructor(
         try {
             initPrefs()
         } catch (e: Exception) {
-            // Fails if debug keystore signature changes between re-installs. Fix: clear data and try again.
             try {
                 val keyStore = java.security.KeyStore.getInstance("AndroidKeyStore")
                 keyStore.load(null)
@@ -26,7 +25,12 @@ class SecurityPreferenceManager @Inject constructor(
             } catch (ignored: Exception) {}
 
             context.getSharedPreferences("secure_prefs", Context.MODE_PRIVATE).edit().clear().commit()
-            initPrefs()
+            try {
+                initPrefs()
+            } catch (fatal: Exception) {
+                // Graceful degradation for devices with permanently broken Keystores
+                prefs = context.getSharedPreferences("fallback_prefs", Context.MODE_PRIVATE)
+            }
         }
     }
 
