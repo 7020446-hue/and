@@ -83,7 +83,6 @@ class CalculatorActivity : AppCompatActivity() {
     }
 
     private fun setupButtons() {
-        // ... (previous button setup logic)
         val allButtons = listOf(
             binding.btn0, binding.btn1, binding.btn2, binding.btn3, binding.btn4,
             binding.btn5, binding.btn6, binding.btn7, binding.btn8, binding.btn9,
@@ -100,11 +99,46 @@ class CalculatorActivity : AppCompatActivity() {
         binding.btnClear.setOnClickListener {
             currentInput = ""
             binding.tvDisplay.text = "0"
+            binding.tvHistory.text = ""
         }
 
         binding.btnEquals.setOnClickListener {
             checkUnlock()
         }
+
+        // Scientific / special buttons
+        binding.btnSin.setOnClickListener { appendFunction("sin(") }
+        binding.btnCos.setOnClickListener { appendFunction("cos(") }
+        binding.btnTan.setOnClickListener { appendFunction("tan(") }
+        // "log" on a physical calculator means base-10 log
+        binding.btnLog.setOnClickListener { appendFunction("log(") }
+
+        binding.btnPlusMinus.setOnClickListener {
+            if (currentInput.isNotEmpty()) {
+                currentInput = if (currentInput.startsWith("-")) {
+                    currentInput.removePrefix("-")
+                } else {
+                    "-$currentInput"
+                }
+                binding.tvDisplay.text = currentInput
+            }
+        }
+
+        binding.btnPercent.setOnClickListener {
+            if (currentInput.isNotEmpty()) {
+                try {
+                    val result = evalExpression(currentInput) / 100.0
+                    currentInput = result.toCleanString()
+                    binding.tvDisplay.text = currentInput
+                } catch (_: Exception) { /* ignore invalid input */ }
+            }
+        }
+    }
+
+    /** Appends a function opener (e.g. "sin(") and refreshes the display. */
+    private fun appendFunction(fn: String) {
+        currentInput += fn
+        binding.tvDisplay.text = currentInput
     }
 
     private fun checkUnlock() {
@@ -147,19 +181,42 @@ class CalculatorActivity : AppCompatActivity() {
 
     private fun performMath() {
         try {
-            val expression = ExpressionBuilder(currentInput
-                .replace("×", "*")
-                .replace("÷", "/")
-                .replace("−", "-")
-            ).build()
-            
-            val result = expression.evaluate()
+            val result = evalExpression(currentInput)
+            val resultStr = result.toCleanString()
             binding.tvHistory.text = currentInput
-            binding.tvDisplay.text = result.toString()
-            currentInput = result.toString()
+            binding.tvDisplay.text = resultStr
+            currentInput = resultStr
         } catch (e: Exception) {
             binding.tvDisplay.text = "Error"
-            cameraHelper.takeIntruderPhoto(this)
+            if (securityPrefs.intruderSelfieEnabled) {
+                cameraHelper.takeIntruderPhoto(this)
+            }
+        }
+    }
+
+    /**
+     * Evaluates a calculator expression string.
+     * Normalises operator symbols and maps the "log" button to base-10 logarithm.
+     */
+    private fun evalExpression(input: String): Double {
+        val expr = input
+            .replace("×", "*")
+            .replace("÷", "/")
+            .replace("−", "-")
+            // "log(" from the button → base-10 log; don't touch "log2(" / "log10("
+            .replace(Regex("\\blog(?!10|2)\\("), "log10(")
+        return ExpressionBuilder(expr).build().evaluate()
+    }
+
+    /** Formats a Double result: removes trailing ".0" for whole numbers. */
+    private fun Double.toCleanString(): String {
+        if (isNaN() || isInfinite()) return "Error"
+        return if (this == kotlin.math.floor(this) &&
+            this in Long.MIN_VALUE.toDouble()..Long.MAX_VALUE.toDouble()
+        ) {
+            toLong().toString()
+        } else {
+            toBigDecimal().stripTrailingZeros().toPlainString()
         }
     }
 

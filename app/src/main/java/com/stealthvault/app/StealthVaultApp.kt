@@ -1,6 +1,9 @@
 package com.stealthvault.app
 
 import android.app.Application
+import android.content.Context
+import androidx.appcompat.app.AppCompatDelegate
+import com.stealthvault.app.data.local.SecurityPreferenceManager
 import dagger.hilt.android.HiltAndroidApp
 import net.sqlcipher.database.SQLiteDatabase
 
@@ -15,5 +18,9 @@ class StealthVaultApp : Application() {
             // Ignore fatal UnsatifiedLinkErrors caused by OS decompression bugs
             android.util.Log.e("StealthVaultApp", "Failed to load SQLCipher libs natively", t)
         }
+        // Apply saved night-mode preference before any activity is created
+        val savedMode = getSharedPreferences(SecurityPreferenceManager.APP_SETTINGS_PREFS, Context.MODE_PRIVATE)
+            .getInt("theme_mode", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        AppCompatDelegate.setDefaultNightMode(savedMode)
     }
 }

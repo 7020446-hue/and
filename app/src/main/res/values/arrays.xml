@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="auto_lock_options">
+        <item>@string/auto_lock_never</item>
+        <item>@string/auto_lock_1min</item>
+        <item>@string/auto_lock_5min</item>
+        <item>@string/auto_lock_10min</item>
+    </string-array>
+</resources>

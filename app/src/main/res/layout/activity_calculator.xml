@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1C1C1E">
+    android:background="@color/calc_screen_bg">
 
     <!-- Display Area -->
     <LinearLayout
@@ -21,7 +21,7 @@
             android:id="@+id/tvHistory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#8E8E93"
+            android:textColor="@color/calc_history_text"
             android:textSize="20sp" />
 
         <TextView
@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/calc_display_text"
             android:textSize="64sp"
             android:textStyle="bold" />
     </LinearLayout>

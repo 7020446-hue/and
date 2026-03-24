@@ -1,6 +1,8 @@
 package com.stealthvault.app.ui.vault
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -9,9 +11,14 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.stealthvault.app.R
+import com.stealthvault.app.data.local.SecurityPreferenceManager
 import com.stealthvault.app.databinding.ActivityVaultBinding
+import com.stealthvault.app.ui.vault.fragments.BrowserFragment
 import com.stealthvault.app.utils.ShakeDetector
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.concurrent.TimeUnit
+import javax.inject.Inject
+import androidx.activity.OnBackPressedCallback
 
 @AndroidEntryPoint
 class VaultActivity : AppCompatActivity() {
@@ -20,11 +27,18 @@ class VaultActivity : AppCompatActivity() {
     private val viewModel: VaultViewModel by viewModels()
     private lateinit var navController: NavController
     private var isDecoyMode = false
-    
+
+    @Inject
+    lateinit var securityPrefs: SecurityPreferenceManager
+
     private val shakeDetector = ShakeDetector {
         // Quick Hide!
         finishAndRemoveTask()
     }
+
+    // Auto-lock: close the vault after a configured period of inactivity
+    private val autoLockHandler = Handler(Looper.getMainLooper())
+    private val autoLockRunnable = Runnable { finishAndRemoveTask() }
 
     private val importLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         uri?.let {
@@ -44,12 +58,49 @@ class VaultActivity : AppCompatActivity() {
 
         setupNavigation()
         setupFab()
-        shakeDetector.start(this)
+        setupBackNavigation()
+
+        if (securityPrefs.shakeToHideEnabled) {
+            shakeDetector.start(this)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Cancel any pending auto-lock timer while the vault is in the foreground
+        autoLockHandler.removeCallbacks(autoLockRunnable)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        // Schedule auto-lock if the user has configured a timeout
+        val minutes = securityPrefs.autoLockMinutes
+        if (minutes > 0) {
+            autoLockHandler.postDelayed(autoLockRunnable, TimeUnit.MINUTES.toMillis(minutes.toLong()))
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        autoLockHandler.removeCallbacks(autoLockRunnable)
         shakeDetector.stop()
+    }
+
+    private fun setupBackNavigation() {
+        // Delegate back presses to the WebView when the browser tab is active so
+        // the user can navigate backward through browser history.
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val navHost = supportFragmentManager
+                    .findFragmentById(R.id.nav_host_fragment) as? NavHostFragment
+                val current = navHost?.childFragmentManager?.primaryNavigationFragment
+                if (current is BrowserFragment && current.onBackPressed()) return
+                // WebView did not consume it — let the system handle it
+                isEnabled = false
+                onBackPressedDispatcher.onBackPressed()
+                isEnabled = true
+            }
+        })
     }
 
     private fun setupNavigation() {

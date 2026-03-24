@@ -1,19 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Vault Colors -->
-    <color name="primary">#9D4EDD</color>
-    <color name="primary_variant">#7B2CBF</color>
-    <color name="secondary">#00F5D4</color>
-    <color name="background">#09090B</color>
-    <color name="surface">#18181B</color>
-    <color name="on_surface">#E4E4E7</color>
-    <color name="error">#FF4D4D</color>
-    
-    <!-- Calculator Colors (Standard Disguise) -->
-    <color name="calc_display_bg">#212121</color>
-    <color name="calc_button_number">#FAFAFA</color>
-    <color name="calc_button_operator">#7C4DFF</color>
-    <color name="calc_button_special">#424242</color>
+    <!-- Vault Colors (Light Theme) -->
+    <color name="primary">#7B2CBF</color>
+    <color name="primary_variant">#5A1A9A</color>
+    <color name="secondary">#00A389</color>
+    <color name="background">#F5F5F7</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="on_surface">#1C1C1E</color>
+    <color name="error">#D32F2F</color>
+
+    <!-- Calculator Colors (Light Theme) -->
+    <color name="calc_screen_bg">#F5F5F7</color>
+    <color name="calc_display_bg">#FFFFFF</color>
+    <color name="calc_display_text">#1C1C1E</color>
+    <color name="calc_history_text">#636366</color>
+    <color name="calc_button_number">#E8E8E8</color>
+    <color name="calc_button_number_text">#1C1C1E</color>
+    <color name="calc_button_operator">#FF9F0A</color>
+    <color name="calc_button_special">#D4D4D2</color>
+    <color name="calc_button_special_text">#1C1C1E</color>
+    <color name="calc_button_scientific">#DCDCDC</color>
+    <color name="calc_button_scientific_text">#636366</color>
+
+    <!-- Vault List / Card Colors (Light Theme) -->
+    <color name="card_background">#FFFFFF</color>
+    <color name="empty_icon_tint">#C7C7CC</color>
+    <color name="empty_title_text">#1C1C1E</color>
+    <color name="empty_subtitle_text">#636366</color>
 
     <!-- App Locker Overlay -->
     <color name="transparent_black">#AA000000</color>

@@ -33,7 +33,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:src="@android:drawable/ic_menu_gallery"
-            app:tint="#444444"
+            app:tint="@color/empty_icon_tint"
             android:layout_marginBottom="16dp"/>
 
         <TextView
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:text="Your vault is empty"
             android:fontFamily="sans-serif-medium"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/empty_title_text"
             android:textSize="20sp" />
 
         <TextView
@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:text="Tap the + button to hide media"
             android:layout_marginTop="8dp"
-            android:textColor="#8E8E93"
+            android:textColor="@color/empty_subtitle_text"
             android:textSize="14sp" />
     </LinearLayout>
 
