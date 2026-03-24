@@ -61,7 +61,23 @@ class VaultActivity : AppCompatActivity() {
 
     private fun setupFab() {
         binding.fabAdd.setOnClickListener {
-            importLauncher.launch("*/*")
+            val bottomSheet = com.google.android.material.bottomsheet.BottomSheetDialog(this)
+            val sheetView = layoutInflater.inflate(R.layout.bottom_sheet_add, null)
+            bottomSheet.setContentView(sheetView)
+
+            sheetView.findViewById<android.view.View>(R.id.btnHidePhotos).setOnClickListener {
+                bottomSheet.dismiss()
+                importLauncher.launch("image/*")
+            }
+            sheetView.findViewById<android.view.View>(R.id.btnHideVideos).setOnClickListener {
+                bottomSheet.dismiss()
+                importLauncher.launch("video/*")
+            }
+            sheetView.findViewById<android.view.View>(R.id.btnHideNotes).setOnClickListener {
+                bottomSheet.dismiss()
+                Toast.makeText(this, "Secure Notes coming soon!", Toast.LENGTH_SHORT).show()
+            }
+            bottomSheet.show()
         }
     }
 }
