@@ -13,10 +13,12 @@ import androidx.navigation.ui.setupWithNavController
 import com.stealthvault.app.R
 import com.stealthvault.app.data.local.SecurityPreferenceManager
 import com.stealthvault.app.databinding.ActivityVaultBinding
+import com.stealthvault.app.ui.vault.fragments.BrowserFragment
 import com.stealthvault.app.utils.ShakeDetector
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import androidx.activity.OnBackPressedCallback
 
 @AndroidEntryPoint
 class VaultActivity : AppCompatActivity() {
@@ -56,6 +58,7 @@ class VaultActivity : AppCompatActivity() {
 
         setupNavigation()
         setupFab()
+        setupBackNavigation()
 
         if (securityPrefs.shakeToHideEnabled) {
             shakeDetector.start(this)
@@ -81,6 +84,23 @@ class VaultActivity : AppCompatActivity() {
         super.onDestroy()
         autoLockHandler.removeCallbacks(autoLockRunnable)
         shakeDetector.stop()
+    }
+
+    private fun setupBackNavigation() {
+        // Delegate back presses to the WebView when the browser tab is active so
+        // the user can navigate backward through browser history.
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val navHost = supportFragmentManager
+                    .findFragmentById(R.id.nav_host_fragment) as? NavHostFragment
+                val current = navHost?.childFragmentManager?.primaryNavigationFragment
+                if (current is BrowserFragment && current.onBackPressed()) return
+                // WebView did not consume it — let the system handle it
+                isEnabled = false
+                onBackPressedDispatcher.onBackPressed()
+                isEnabled = true
+            }
+        })
     }
 
     private fun setupNavigation() {
