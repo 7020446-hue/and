@@ -44,7 +44,11 @@ class CalculatorActivity : AppCompatActivity() {
         
         // Secret trigger: Long press history to use Biometrics
         binding.tvHistory.setOnLongClickListener {
-            biometricPrompt.authenticate(promptInfo)
+            if (securityPrefs.isSetupComplete) {
+                biometricPrompt.authenticate(promptInfo)
+            } else {
+                Toast.makeText(this, "Set Master PIN first", Toast.LENGTH_SHORT).show()
+            }
             true
         }
     }
@@ -92,6 +96,11 @@ class CalculatorActivity : AppCompatActivity() {
     }
 
     private fun checkUnlock() {
+        if (!securityPrefs.isSetupComplete) {
+            setupPins()
+            return
+        }
+
         val master = securityPrefs.masterPin
         val decoy = securityPrefs.decoyPin
 
@@ -101,6 +110,27 @@ class CalculatorActivity : AppCompatActivity() {
             else -> performMath()
         }
         currentInput = ""
+    }
+
+    private fun setupPins() {
+        val input = currentInput
+        if (input.isEmpty()) return
+
+        if (securityPrefs.masterPin == null) {
+            securityPrefs.masterPin = input
+            Toast.makeText(this, "Master PIN set. Now enter a DECOY PIN and press '='", Toast.LENGTH_LONG).show()
+        } else if (securityPrefs.decoyPin == null) {
+            if (input == securityPrefs.masterPin) {
+                Toast.makeText(this, "Decoy PIN must be different from Master PIN", Toast.LENGTH_SHORT).show()
+            } else {
+                securityPrefs.decoyPin = input
+                securityPrefs.isSetupComplete = true
+                Toast.makeText(this, "Setup complete! Enter Master PIN to unlock vault.", Toast.LENGTH_LONG).show()
+            }
+        }
+        currentInput = ""
+        binding.tvDisplay.text = "0"
+        binding.tvHistory.text = ""
     }
 
     private fun performMath() {
