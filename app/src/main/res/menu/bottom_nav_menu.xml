@@ -2,25 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/photosFragment"
-        android:icon="@android:drawable/ic_menu_gallery"
+        android:icon="@drawable/ic_nav_photos"
         android:title="Photos" />
     <item
         android:id="@+id/videosFragment"
-        android:icon="@android:drawable/ic_menu_slideshow"
+        android:icon="@drawable/ic_nav_videos"
         android:title="Videos" />
     <item
         android:id="@+id/notesFragment"
-        android:icon="@android:drawable/ic_menu_edit"
+        android:icon="@drawable/ic_nav_notes"
         android:title="Notes" />
-
-
     <item
         android:id="@+id/browserFragment"
-        android:icon="@android:drawable/ic_menu_search"
+        android:icon="@drawable/ic_nav_web"
         android:title="Web" />
-
     <item
         android:id="@+id/settingsFragment"
-        android:icon="@android:drawable/ic_menu_preferences"
+        android:icon="@drawable/ic_nav_settings"
         android:title="Settings" />
 </menu>
