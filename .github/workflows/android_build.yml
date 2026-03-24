@@ -27,6 +27,7 @@ jobs:
         if [ ! -f gradlew ]; then
           echo "Gradle wrapper missing, generating in temp dir to avoid Gradle 9 project evaluation crashes..."
           mkdir /tmp/gradle-wrap && cd /tmp/gradle-wrap
+          touch settings.gradle.kts
           gradle wrapper --gradle-version 8.7
           cp -r gradlew gradlew.bat gradle/ ${{ github.workspace }}/
           cd ${{ github.workspace }}
